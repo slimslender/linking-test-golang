@@ -1,0 +1,27 @@
+version: 0.2
+
+env:
+  variables:
+    AWS_ACCOUNT_ID: "111664719423"
+    REPO: "linking-test-golang-ecr"
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the base Docker image...          
+      - aws s3 cp s3://ecr-integration-test/creds/.docker.key .docker.key
+      - docker login -u slimslenderslacks --password-stdin < .docker.key
+      - rm .docker.key
+      - docker build . --target unit-test
+      - docker build . -t $REPO:latest --target service --platform linux --label "org.opencontainers.image.revision=$CODEBUILD_RESOLVED_SOURCE_VERSION" --label "org.opencontainers.image.source=base/Dockerfile" -f Dockerfile
+      - docker tag $REPO:latest $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/$REPO:latest      
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/base:latest

@@ -44,3 +44,7 @@ FROM scratch AS bin-windows
 COPY --from=build /out/example /example.exe
 
 FROM bin-${TARGETOS} as bin 
+
+FROM debian:latest as service
+COPY --from=build /out/example /service
+ENTRYPOINT ["/service"]
