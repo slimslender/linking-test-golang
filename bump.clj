@@ -4,7 +4,7 @@
 (require '[babashka.process :as process])
 
 (defn bump [& args]
-  (let [filename (or (first args) "base/Dockerfile")]
+  (let [filename (or (first args) "main.go")]
     (spit filename
           (s/replace
            (slurp filename)
