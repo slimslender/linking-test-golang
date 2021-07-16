@@ -1,0 +1,9 @@
+#!/bin/bash
+
+docker build . \
+  -t $IMAGE_NAME \
+  --target service \
+  --platform linux \
+  --label "org.opencontainers.image.revision=$SOURCE_COMMIT" \
+  --label "org.opencontainers.image.source=$DOCKERFILE_PATH" \
+  -f Dockerfile
