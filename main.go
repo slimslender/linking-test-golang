@@ -12,7 +12,7 @@ func echo(args []string) error {
 	if len(args) < 2 {
 		return errors.New("no message to echo")
 	}
-	_, err := fmt.Println(strings.Join(args[1:], " "))
+	_, err := fmt.Println(strings.Join(args[1:], " {:version 0}"))
 	return err
 }
 
