@@ -1,8 +1,8 @@
 FROM golang:1.15.2-alpine AS base
 WORKDIR /src
 ENV CGO_ENABLED=0
-COPY go.* .
-COPY *.go .
+COPY go.* ./
+COPY *.go ./
 RUN go mod download
 
 FROM base AS build
