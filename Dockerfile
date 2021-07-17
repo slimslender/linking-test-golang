@@ -1,4 +1,4 @@
-FROM --platform=${BUILDPLATFORM} golang:1.15.2-alpine AS base
+FROM golang:1.15.2-alpine AS base
 WORKDIR /src
 ENV CGO_ENABLED=0
 COPY go.* .
@@ -8,7 +8,7 @@ RUN go mod download
 FROM base AS build
 ARG TARGETOS
 ARG TARGETARCH
-RUN GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -o /out/example .
+RUN GOOS=linux GOARCH=amd64 go build -o /out/example .
 
 FROM base AS unit-test
 RUN mkdir /out && go test -v -coverprofile=/out/cover.out ./...
