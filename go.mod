@@ -1,4 +1,4 @@
-module github.com/chris-crone/containerized-go
+module github.com/slimslender/linking-test-golang
 
 go 1.15
 
