@@ -14,7 +14,7 @@ FROM base AS unit-test
 RUN mkdir /out && go test -v -coverprofile=/out/cover.out ./...
 
 FROM golangci/golangci-lint:v1.31.0-alpine AS lint
-COPY --from=base ./src/* ./src
+COPY --from=base ./src/* ./src/
 RUN golangci-lint run --timeout 10m0s ./...
 
 FROM scratch AS unit-test-coverage
