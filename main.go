@@ -17,7 +17,7 @@ func echo(args []string) error {
 }
 
 func main() {
-	if err := echo(append(os.Args, "{:version 5}")); err != nil {
+	if err := echo(append(os.Args, "{:version 6}")); err != nil {
 		fmt.Fprintf(os.Stderr, "%+v\n", err)
 		os.Exit(1)
 	}
